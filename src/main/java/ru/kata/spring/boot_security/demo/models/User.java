@@ -4,7 +4,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import ru.kata.spring.boot_security.demo.configs.WebSecurityConfig;
 
 import javax.persistence.*;
 import java.util.Collection;
@@ -42,10 +41,8 @@ public class User implements UserDetails {
 
     public User(String name, String surname, String age) {
         this.name = name;
-//        this.password = password;
         this.surname = surname;
         this.age = age;
-//        this.roles = roles;
     }
 
     @Override

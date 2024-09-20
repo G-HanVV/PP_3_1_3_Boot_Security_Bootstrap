@@ -44,11 +44,7 @@ public class UserService implements UserDetailsService {
     @Transactional
     public void add(User user) {
         user.setPassword(WebSecurityConfig.passwordEncoder.encode(user.getPassword()));
-//        System.out.println("Adding user: " + user);
-//        Role role = roleRepository.getById(2);
-//        System.out.println("Role: " + role.getAuthority());
         user.setRoles(List.of(roleRepository.getById(2)));
-//        User user1 = new User("Sergey", "Zubarkov", "36");
         userRepository.save(user);
     }
 
