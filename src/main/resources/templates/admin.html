@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>Admin sheet</h1>
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Surname</th>
+        <th>Age</th>
+    </tr>
+    <tr th:each="user : ${users}">
+        <td th:text="${user.name}"></td>
+        <td th:text="${user.surname}"></td>
+        <td th:text="${user.age}"></td>
+        <td><a th:href="@{/admin/{id}/edit(id = ${user.id})}">Update</a></td>
+        <td><form th:method="delete" th:action="@{/admin/{id}(id = ${user.id})}">
+            <input type="submit" value="Delete"/>
+        </form></td>
+    </tr>
+</table>
+<br/> <a href="/admin/form">New user</a>
+<br/> <br/><br/><br/> <a href="/user">User sheet</a>
+<br><br>
+
+<div th:replace="footer :: content"></div>
+</body>
+</html>
