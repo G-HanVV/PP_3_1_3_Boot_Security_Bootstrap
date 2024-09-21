@@ -24,7 +24,8 @@ public class AdminController {
     public String showAdmin(ModelMap model, Principal principal){
         List<User> users = userService.getUsers();
         model.addAttribute("users", users);
-        return "/admin";
+        return "bootstrap_admin";
+//        return "/admin";
     }
 
     @GetMapping (value = "/form")
