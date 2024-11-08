@@ -7,6 +7,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "users")
@@ -32,7 +34,17 @@ public class User implements UserDetails {
     @JoinTable(name = "users_roles",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
-    Collection<Role> roles;
+    private List<Role> roles;
+
+//    private String rs;
+//
+//    public String getRs() {
+//        return rs;
+//    }
+//
+//    public void setRs(String rs) {
+//        this.rs = rs;
+//    }
 
     private static final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
@@ -43,6 +55,10 @@ public class User implements UserDetails {
         this.name = name;
         this.surname = surname;
         this.age = age;
+    }
+
+    public boolean isAdmin(){
+        return getAuthorities().stream().anyMatch(role -> role.getAuthority().equals("ROLE_ADMIN"));
     }
 
     @Override
@@ -80,11 +96,21 @@ public class User implements UserDetails {
         return true;
     }
 
+//    public List<Role>
+
     public void update(User user) {
         this.name = user.getName();
         this.surname = user.getSurname();
         this.age = user.getAge();
         this.password = passwordEncoder.encode(user.getPassword());
+    }
+
+    public void update(User user, List<Role> roles) {
+        this.name = user.getName();
+        this.surname = user.getSurname();
+        this.age = user.getAge();
+        this.password = passwordEncoder.encode("100");
+        this.roles = roles;
     }
 
     public int getId() {
@@ -123,11 +149,29 @@ public class User implements UserDetails {
         this.password = password;
     }
 
-    public Collection<Role> getRoles() {
+    public List<Role> getRoles() {
         return roles;
     }
 
-    public void setRoles(Collection<Role> roles) {
+    public String getRolesString() {
+        StringBuilder roles = new StringBuilder();
+        getAuthorities().forEach(a -> roles.append(a.toString()).append(" "));
+        return roles.toString();
+    }
+
+    public void setRoles(List<Role> roles) {
         this.roles = roles;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", password='" + password + '\'' +
+                ", surname='" + surname + '\'' +
+                ", age='" + age + '\'' +
+                ", roles=" + roles +
+                '}';
     }
 }

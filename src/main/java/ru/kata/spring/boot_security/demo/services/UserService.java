@@ -7,12 +7,15 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.kata.spring.boot_security.demo.configs.WebSecurityConfig;
+import ru.kata.spring.boot_security.demo.models.Role;
 import ru.kata.spring.boot_security.demo.models.User;
 import ru.kata.spring.boot_security.demo.repositories.RoleRepository;
 import ru.kata.spring.boot_security.demo.repositories.UserRepository;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional(readOnly = true)
@@ -33,7 +36,7 @@ public class UserService implements UserDetailsService {
         if (user == null) {
             throw new UsernameNotFoundException(String.format("User '%s' not found", username));
         }
-        user.getRoles().isEmpty();
+        user.getAuthorities().isEmpty();
         return user;
     }
 
@@ -44,7 +47,7 @@ public class UserService implements UserDetailsService {
     @Transactional
     public void add(User user) {
         user.setPassword(WebSecurityConfig.passwordEncoder.encode(user.getPassword()));
-        user.setRoles(List.of(roleRepository.getById(2)));
+//        user.setRoles(List.of(roleRepository.getById(2)));
         userRepository.save(user);
     }
 
@@ -58,11 +61,25 @@ public class UserService implements UserDetailsService {
     }
 
     @Transactional
+    public void updateUser(User user, Set<Integer> roleIds) {
+        System.out.println("UserService --- update user");
+        List<Role> roles = roleRepository.findAll().stream().filter(r -> roleIds.contains(r.getId())).collect(Collectors.toList());
+        Objects.requireNonNull(userRepository.findById(user.getId()).orElse(null)).update(user, roles);
+    }
+
+    @Transactional
     public void deleteUser(int id) {
         userRepository.deleteById(id);
     }
 
     public User getUser(String name) {
         return userRepository.findByName(name);
+    }
+
+    public User save(User user) {
+        user.setPassword(WebSecurityConfig.passwordEncoder.encode(user.getPassword()));
+//        user.setRoles(List.of(roleRepository.getById(2)));
+        userRepository.save(user);
+        return user;
     }
 }

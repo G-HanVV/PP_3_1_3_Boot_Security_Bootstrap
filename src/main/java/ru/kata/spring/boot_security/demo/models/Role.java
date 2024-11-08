@@ -1,6 +1,7 @@
 package ru.kata.spring.boot_security.demo.models;
 
 import org.springframework.security.core.GrantedAuthority;
+import ru.kata.spring.boot_security.demo.services.RoleService;
 
 import javax.persistence.*;
 
@@ -19,6 +20,10 @@ public class Role implements GrantedAuthority {
     public Role() {
     }
 
+    public static Role getInstance(String id) {
+        return RoleService.getRoleService().findById(id);
+    }
+
     public int getId() {
         return id;
     }
@@ -35,4 +40,17 @@ public class Role implements GrantedAuthority {
     public String getAuthority() {
         return authority;
     }
+
+    @Override
+    public String toString() {
+        return authority;
+    }
+
+//    public String getName(){
+//        return authority;
+//    }
+//
+//    public String getIdString(){
+//        return String.valueOf(id);
+//    }
 }

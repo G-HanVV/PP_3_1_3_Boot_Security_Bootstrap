@@ -27,9 +27,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+
+//        http.authorizeRequests().anyRequest().anonymous().antMatchers("/bt").permitAll();
+
         http
                 .authorizeRequests()
-                .antMatchers("/bt/**").permitAll()
+//                .antMatchers("/bt/**").permitAll()
                 .antMatchers("/admin/**").hasRole("ADMIN")
                 .anyRequest().authenticated()
                 .and()
@@ -37,7 +40,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .permitAll()
                 .and()
                 .logout()
-                .permitAll();
+                .permitAll()
+                .and()
+                .csrf().disable().cors();
     }
 
     // аутентификация inMemory
