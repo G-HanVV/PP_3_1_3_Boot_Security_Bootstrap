@@ -36,16 +36,6 @@ public class User implements UserDetails {
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private List<Role> roles;
 
-//    private String rs;
-//
-//    public String getRs() {
-//        return rs;
-//    }
-//
-//    public void setRs(String rs) {
-//        this.rs = rs;
-//    }
-
     private static final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     public User() {
@@ -55,10 +45,6 @@ public class User implements UserDetails {
         this.name = name;
         this.surname = surname;
         this.age = age;
-    }
-
-    public boolean isAdmin(){
-        return getAuthorities().stream().anyMatch(role -> role.getAuthority().equals("ROLE_ADMIN"));
     }
 
     @Override
@@ -109,7 +95,7 @@ public class User implements UserDetails {
         this.name = user.getName();
         this.surname = user.getSurname();
         this.age = user.getAge();
-        this.password = passwordEncoder.encode("100");
+        this.password = passwordEncoder.encode(user.getPassword());
         this.roles = roles;
     }
 

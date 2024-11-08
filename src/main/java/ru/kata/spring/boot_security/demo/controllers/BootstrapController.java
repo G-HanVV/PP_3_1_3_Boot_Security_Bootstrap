@@ -4,7 +4,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.Mapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import ru.kata.spring.boot_security.demo.models.User;
 import ru.kata.spring.boot_security.demo.services.RoleService;
@@ -42,6 +41,6 @@ public class BootstrapController {
         Collection<? extends GrantedAuthority> authorities = user1.getAuthorities();
         model.addAttribute("newUser", userFactory.getUserToNewUserForm());
         model.addAttribute("roles", roleService.findAll());
-        return "bootstrap_index";
+        return "admin_bt";
     }
 }

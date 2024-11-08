@@ -30,9 +30,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 //        http.authorizeRequests().anyRequest().anonymous().antMatchers("/bt").permitAll();
 
-        http
-                .authorizeRequests()
-//                .antMatchers("/bt/**").permitAll()
+        http.authorizeRequests()
                 .antMatchers("/admin/**").hasRole("ADMIN")
                 .anyRequest().authenticated()
                 .and()
@@ -40,9 +38,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .permitAll()
                 .and()
                 .logout()
-                .permitAll()
-                .and()
-                .csrf().disable().cors();
+                .permitAll();
     }
 
     // аутентификация inMemory
