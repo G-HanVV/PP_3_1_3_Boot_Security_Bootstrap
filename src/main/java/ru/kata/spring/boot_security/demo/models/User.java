@@ -8,7 +8,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import javax.persistence.*;
 import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Table(name = "users")
@@ -82,21 +81,14 @@ public class User implements UserDetails {
         return true;
     }
 
-//    public List<Role>
-
-    public void update(User user) {
-        this.name = user.getName();
-        this.surname = user.getSurname();
-        this.age = user.getAge();
-        this.password = passwordEncoder.encode(user.getPassword());
-    }
-
     public void update(User user, List<Role> roles) {
         this.name = user.getName();
         this.surname = user.getSurname();
         this.age = user.getAge();
         this.password = passwordEncoder.encode(user.getPassword());
-        this.roles = roles;
+        if (roles != null) {
+            this.roles = roles;
+        }
     }
 
     public int getId() {

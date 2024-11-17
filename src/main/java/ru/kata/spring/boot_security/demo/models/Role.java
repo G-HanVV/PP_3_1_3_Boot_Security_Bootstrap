@@ -1,7 +1,7 @@
 package ru.kata.spring.boot_security.demo.models;
 
 import org.springframework.security.core.GrantedAuthority;
-import ru.kata.spring.boot_security.demo.services.RoleService;
+import ru.kata.spring.boot_security.demo.services.RoleServiceImpl;
 
 import javax.persistence.*;
 
@@ -10,7 +10,7 @@ import javax.persistence.*;
 public class Role implements GrantedAuthority {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private int id;
 
@@ -18,10 +18,6 @@ public class Role implements GrantedAuthority {
     private String authority;
 
     public Role() {
-    }
-
-    public static Role getInstance(String id) {
-        return RoleService.getRoleService().findById(id);
     }
 
     public int getId() {
@@ -45,12 +41,4 @@ public class Role implements GrantedAuthority {
     public String toString() {
         return authority;
     }
-
-//    public String getName(){
-//        return authority;
-//    }
-//
-//    public String getIdString(){
-//        return String.valueOf(id);
-//    }
 }
